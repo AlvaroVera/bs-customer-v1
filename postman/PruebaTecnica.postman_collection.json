@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "6bf7f806-f4ef-413a-91c8-bb8be16825a6",
+		"name": "PruebaTecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6358586"
+	},
+	"item": [
+		{
+			"name": "Get Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/customer?dni=71268856",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"customer"
+					],
+					"query": [
+						{
+							"key": "dni",
+							"value": "71268856"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Indicators",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/indicator/IN001",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"indicator",
+						"IN001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombres\": \"Benjamin\",\r\n    \"apellidos\": \"Flores Crisante\",\r\n    \"email\": \"benjamin@gmail.com\",\r\n    \"dni\": \"78524162\",\r\n    \"fechaNacimiento\": \"2024-08-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"customer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

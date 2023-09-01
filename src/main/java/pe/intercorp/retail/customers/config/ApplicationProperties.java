@@ -18,6 +18,7 @@ public class ApplicationProperties {
 
     @Data
     public static class Constants {
+        private Integer totalPopulation;
         private Map<Integer, String> months;
         private String notFoundCustomer;
         private String internalServerErrorCustomer;

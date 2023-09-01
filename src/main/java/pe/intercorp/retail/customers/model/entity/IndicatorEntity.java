@@ -12,4 +12,5 @@ public class IndicatorEntity {
     private Integer year;
     private Integer month;
     private Integer born;
+    private Double birthRate;
 }

@@ -1,0 +1,353 @@
+openapi: 3.0.1
+info:
+  title: BS CUSTOMERS V1
+  description: Permite obtener datos de los clientes de la empresa
+  contact:
+    name: Alvaro Marcial Vera Bendezu
+    url: https://github.com/AlvaroVera/bs-customer-v1
+    email: alvaro291095@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+    description: Local
+paths:
+  /customer:
+    get:
+      tags:
+        - 'Customers'
+      summary: Permite obtener las lista de cleinte por DNI y por email.
+      operationId: getCustomers
+      parameters:
+        - in: query
+          name: dni
+          required: false
+          schema:
+            type: string
+          description: dni del cliente de 8 caracteres
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: email del cliente debe ser un formato valido
+      responses:
+        '200':
+          description: Solicitud/ Operación exitosa Respuesta del registro seleccionado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+        '400':
+          description: La solicitud posee una sintaxis o falta parámetro(s) requerido (s).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Problema de  autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Permisos incorrectos o el servicio esta deshabilitado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Recurso de destino inexistente. Servicio no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '408':
+          description: Servidor no recibe la solicitud dentro del tiempo esperado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Servidor presenta una condición inesperada que impide completar la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - 'Customers'
+      summary: Permite crear un nuevo cliente
+      requestBody:
+        description: Optional description in 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: Respuesta de registro exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+        '400':
+          description: La solicitud posee una sintaxis o falta parámetro(s) requerido (s).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Problema de  autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Permisos incorrectos o el servicio esta deshabilitado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Recurso de destino inexistente. Servicio no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '408':
+          description: Servidor no recibe la solicitud dentro del tiempo esperado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Servidor presenta una condición inesperada que impide completar la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /indicator/{code}:
+    get:
+      tags:
+        - 'Customers'
+      summary: Permite obtener infomación de diferentes indicadores
+      operationId: getIndicators
+      description: >
+        ## Indicadores
+
+          Se manejan cuatro indicadores que fueron definidos en el requerimiento para los cuales se les asigno un código que se describira en la siguiente tabla.
+            
+          | Código | Indicador |
+          | ------ | ------ |
+          | IN001 | Cantidad de clientes nacidos por mes y año. |
+          | IN002 | Mes/Año con mayor cantidad de clientes nacidos. |
+          | IN003 | Mes/Año con menor cantidad de clientes nacidos. |
+          | IN004 | Tasa de natalidad de cada mes de todos los años. |
+      
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            type: string
+          description: código relacionado a un indicador especifico.
+      responses:
+        '200':
+          description: Respuesta con los datos requeridos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndicatorDto'
+        '400':
+          description: La solicitud posee una sintaxis o falta parámetro(s) requerido (s).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Problema de  autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Permisos incorrectos o el servicio esta deshabilitado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Recurso de destino inexistente. Servicio no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '408':
+          description: Servidor no recibe la solicitud dentro del tiempo esperado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Servidor presenta una condición inesperada que impide completar la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CustomerDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 23
+        nombres:
+          type: string
+          example: Alvaro
+        apellidos:
+          type: string
+          example: Vera
+        dni:
+          type: string
+          example: 75852415
+        email:
+          type: string
+          example: hola@alvaro.com
+        fechaNacimiento:
+          type: string
+          format: date
+    IndicatorDto:
+      type: object
+      properties:
+        indicator:
+          type: string
+          example: Cantidad de clientes nacidos por mes y año.
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataDto'
+    DataDto:
+      type: object
+      properties:
+        year:
+          type: integer
+        month:
+          type: string
+        born:
+          type: integer
+        birthRate:
+          type: integer
+    CustomerRequest:
+      type: object
+      required:
+        - nombres
+        - apellidos
+        - dni
+        - email
+        - fechaNacimiento
+      properties:
+      
+        nombres:
+          type: string
+          example: Alvaro
+        apellidos:
+          type: string
+          example: Vera
+        dni:
+          type: string
+          example: 75852415
+        email:
+          type: string
+          example: hola@alvaro.com
+        fechaNacimiento:
+          type: string
+          format: date
+    ErrorResponse:
+      type: object
+      properties:
+        codigoEstado:
+          type: string
+          enum:
+            - 100 CONTINUE
+            - 101 SWITCHING_PROTOCOLS
+            - 102 PROCESSING
+            - 103 EARLY_HINTS
+            - 103 CHECKPOINT
+            - 200 OK
+            - 201 CREATED
+            - 202 ACCEPTED
+            - 203 NON_AUTHORITATIVE_INFORMATION
+            - 204 NO_CONTENT
+            - 205 RESET_CONTENT
+            - 206 PARTIAL_CONTENT
+            - 207 MULTI_STATUS
+            - 208 ALREADY_REPORTED
+            - 226 IM_USED
+            - 300 MULTIPLE_CHOICES
+            - 301 MOVED_PERMANENTLY
+            - 302 FOUND
+            - 302 MOVED_TEMPORARILY
+            - 303 SEE_OTHER
+            - 304 NOT_MODIFIED
+            - 305 USE_PROXY
+            - 307 TEMPORARY_REDIRECT
+            - 308 PERMANENT_REDIRECT
+            - 400 BAD_REQUEST
+            - 401 UNAUTHORIZED
+            - 402 PAYMENT_REQUIRED
+            - 403 FORBIDDEN
+            - 404 NOT_FOUND
+            - 405 METHOD_NOT_ALLOWED
+            - 406 NOT_ACCEPTABLE
+            - 407 PROXY_AUTHENTICATION_REQUIRED
+            - 408 REQUEST_TIMEOUT
+            - 409 CONFLICT
+            - 410 GONE
+            - 411 LENGTH_REQUIRED
+            - 412 PRECONDITION_FAILED
+            - 413 PAYLOAD_TOO_LARGE
+            - 413 REQUEST_ENTITY_TOO_LARGE
+            - 414 URI_TOO_LONG
+            - 414 REQUEST_URI_TOO_LONG
+            - 415 UNSUPPORTED_MEDIA_TYPE
+            - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+            - 417 EXPECTATION_FAILED
+            - 418 I_AM_A_TEAPOT
+            - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+            - 420 METHOD_FAILURE
+            - 421 DESTINATION_LOCKED
+            - 422 UNPROCESSABLE_ENTITY
+            - 423 LOCKED
+            - 424 FAILED_DEPENDENCY
+            - 425 TOO_EARLY
+            - 426 UPGRADE_REQUIRED
+            - 428 PRECONDITION_REQUIRED
+            - 429 TOO_MANY_REQUESTS
+            - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+            - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+            - 500 INTERNAL_SERVER_ERROR
+            - 501 NOT_IMPLEMENTED
+            - 502 BAD_GATEWAY
+            - 503 SERVICE_UNAVAILABLE
+            - 504 GATEWAY_TIMEOUT
+            - 505 HTTP_VERSION_NOT_SUPPORTED
+            - 506 VARIANT_ALSO_NEGOTIATES
+            - 507 INSUFFICIENT_STORAGE
+            - 508 LOOP_DETECTED
+            - 509 BANDWIDTH_LIMIT_EXCEEDED
+            - 510 NOT_EXTENDED
+            - 511 NETWORK_AUTHENTICATION_REQUIRED
+        estado:
+          type: string
+        fechaHora:
+          type: string
+          format: date-time
+        errores:
+          type: array
+          items:
+            type: string
+    

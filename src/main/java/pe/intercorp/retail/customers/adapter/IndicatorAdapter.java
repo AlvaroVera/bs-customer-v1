@@ -14,6 +14,7 @@ public class IndicatorAdapter {
                 .born(indicatorEntity.getBorn())
                 .month(months.get(indicatorEntity.getMonth() - 1))
                 .year(indicatorEntity.getYear())
+                .birthRate(indicatorEntity.getBirthRate())
                 .build();
     }
 }

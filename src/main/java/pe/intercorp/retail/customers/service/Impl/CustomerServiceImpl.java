@@ -15,6 +15,7 @@ import pe.intercorp.retail.customers.model.entity.IndicatorEntity;
 import pe.intercorp.retail.customers.model.specification.CustomerSpecification;
 import pe.intercorp.retail.customers.repository.ICustomerRepository;
 import pe.intercorp.retail.customers.service.ICustomerService;
+import pe.intercorp.retail.customers.utils.Constants;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,7 +87,7 @@ public class CustomerServiceImpl implements ICustomerService {
                             .build();
                 }).collect(Collectors.toList());
 
-        if (indicator.equals("IN001")) {
+        if (indicator.equals(Constants.INDICADOR_01)) {
 
             indicatorDto.setData(indicatorEntity.stream()
                     .map(indicatorEntity1 -> IndicatorAdapter.toDataDto(indicatorEntity1, applicationProperties.getConstants().getMonths()))
@@ -94,10 +95,7 @@ public class CustomerServiceImpl implements ICustomerService {
                     );
         }
 
-
-
-
-        if (indicator.equals("IN002")){
+        if (indicator.equals(Constants.INDICADOR_02)){
             Optional<IndicatorEntity> maxBorn = indicatorEntity.stream().max(Comparator.comparing(IndicatorEntity::getBorn));
             indicatorDto.setData(indicatorEntity.stream()
                     .filter(indicatorEntity1 -> Objects.equals(indicatorEntity1.getBorn(), maxBorn.get().getBorn()))
@@ -105,10 +103,27 @@ public class CustomerServiceImpl implements ICustomerService {
                     .collect(Collectors.toList()));
         }
 
-        if (indicator.equals("IN003")){
+        if (indicator.equals(Constants.INDICADOR_03)){
             Optional<IndicatorEntity> minBorn = indicatorEntity.stream().min(Comparator.comparing(IndicatorEntity::getBorn));
             indicatorDto.setData(indicatorEntity.stream()
                     .filter(indicatorEntity1 -> Objects.equals(indicatorEntity1.getBorn(), minBorn.get().getBorn()))
+                    .map(indicatorEntity1 -> IndicatorAdapter.toDataDto(indicatorEntity1, applicationProperties.getConstants().getMonths()))
+                    .collect(Collectors.toList()));
+        }
+
+        if (indicator.equals(Constants.INDICADOR_04)) {
+            List<IndicatorEntity> indicatorEntities = customerRepository.getTasaNatalidad(applicationProperties.getConstants().getTotalPopulation())
+                    .stream()
+                    .map(obj -> {
+                        Object[] row = (Object[]) obj;
+                        return IndicatorEntity.builder()
+                                .month(Integer.parseInt(String.valueOf(row[0])))
+                                .birthRate(Double.parseDouble(String.valueOf(row[1])))
+                                .build();
+                    }).collect(Collectors.toList());
+
+            indicatorDto.setData(indicatorEntities
+                    .stream()
                     .map(indicatorEntity1 -> IndicatorAdapter.toDataDto(indicatorEntity1, applicationProperties.getConstants().getMonths()))
                     .collect(Collectors.toList()));
         }
