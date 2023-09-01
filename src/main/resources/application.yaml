@@ -1,0 +1,39 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/personas
+    username: alvaro
+    password: alvaro123
+    hikari:
+      maximum-pool-size: 10
+      idle-timeout: 60000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: 'false'
+application:
+
+  indicators:
+    IN001: Cantidad de clientes nacidos por mes y año.
+    IN002: Mes/Año con mayor cantidad de clientes nacidos.
+    IN003: Mes/Año con menor cantidad de clientes nacidos.
+    IN004: Tasa de natalidad de cada mes.
+  constants:
+    months:
+      - Enero
+      - Febrero
+      - Marzo
+      - Abril
+      - Mayo
+      - Junio
+      - Julio
+      - Agosto
+      - Setiembre
+      - Octubre
+      - Noviembre
+      - Diciembre
+    notFoundCustomer: No se encontraron registros que coincidan con los parametros de busqueda.
+    internalServerErrorCustomer: Error al crear el nuevo usuario.
+    notFoundIndicator: El indicador proporcionado no es correcto.
